@@ -10,3 +10,6 @@ The game is simple, **catch as many fish as possible, but watch out for sharks!*
 - Once the game starts, you have exactly **60 seconds** to catch as many fish as possible _without running into a shark!_ If you do, the game is over.
 - You can end the game by clicking _End_.
    
+## Screenshots
+See how the game looks before you play;
+<img src="Screenshots/Home.png" width="150"/>
