@@ -109,6 +109,10 @@
             <Form>frmDifficultyInput</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="Game_Over.pas">
+            <Form>frmGameOver</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

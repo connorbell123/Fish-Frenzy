@@ -63,6 +63,9 @@ begin
   // Play the Button Click Sound
   frmMain.ClickSound;
 
+  // Enable Buttons for start
+  frmMain.btnStart.Enabled := True;
+
   // Close the form
   frmDifficultyInput.Close;
 end;

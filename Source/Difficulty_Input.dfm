@@ -3493,6 +3493,8 @@ object frmDifficultyInput: TfrmDifficultyInput
     Height = 57
     Align = alBottom
     TabOrder = 0
+    ExplicitTop = 87
+    ExplicitWidth = 323
     object btnOK: TButton
       Left = 231
       Top = 8

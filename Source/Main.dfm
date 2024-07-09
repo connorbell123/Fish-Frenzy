@@ -13,6 +13,7 @@ object frmMain: TfrmMain
   Font.Name = 'Segoe UI'
   Font.Style = []
   Menu = mmMain
+  Position = poDesktopCenter
   OnActivate = FormActivate
   TextHeight = 15
   object imgLogo: TImage
@@ -10565,8 +10566,8 @@ object frmMain: TfrmMain
     StyleElements = [seClient, seBorder]
   end
   object lblAbout1: TLabel
-    Left = 19
-    Top = 305
+    Left = 14
+    Top = 300
     Width = 317
     Height = 19
     Caption = 'CATCH AS MANY FISH AS POSSIBLE...'
@@ -10579,8 +10580,8 @@ object frmMain: TfrmMain
     StyleElements = [seClient, seBorder]
   end
   object lblAbout2: TLabel
-    Left = 35
-    Top = 330
+    Left = 30
+    Top = 325
     Width = 184
     Height = 19
     Caption = 'BUT WATCH OUT FOR '
@@ -10593,8 +10594,8 @@ object frmMain: TfrmMain
     StyleElements = [seClient, seBorder]
   end
   object lblAbout3: TLabel
-    Left = 225
-    Top = 326
+    Left = 220
+    Top = 321
     Width = 114
     Height = 29
     Caption = 'SHARKS!'
@@ -28292,7 +28293,7 @@ object frmMain: TfrmMain
       Height = 53
       Align = alClient
       Alignment = taCenter
-      Caption = '00:00'
+      Caption = '60'
       Color = clRed
       Font.Charset = ANSI_CHARSET
       Font.Color = clRed
@@ -28302,7 +28303,7 @@ object frmMain: TfrmMain
       ParentColor = False
       ParentFont = False
       StyleElements = []
-      ExplicitWidth = 92
+      ExplicitWidth = 42
       ExplicitHeight = 43
     end
   end
@@ -28334,8 +28335,8 @@ object frmMain: TfrmMain
       ParentColor = False
       ParentFont = False
       StyleElements = []
-      ExplicitLeft = 0
-      ExplicitTop = 31
+      ExplicitWidth = 21
+      ExplicitHeight = 43
     end
   end
   object pnlRecordScore: TPanel
@@ -28388,8 +28389,8 @@ object frmMain: TfrmMain
         Width = 100
       end>
     SizeGrip = False
-    ExplicitLeft = -1
-    ExplicitTop = 598
+    ExplicitTop = 586
+    ExplicitWidth = 353
   end
   object pnlGameBoard: TPanel
     Left = 64
@@ -28398,7 +28399,7 @@ object frmMain: TfrmMain
     Height = 217
     BevelWidth = 2
     TabOrder = 5
-    object Shape1: TShape
+    object shp00: TShape
       Left = 12
       Top = 11
       Width = 65
@@ -28407,7 +28408,7 @@ object frmMain: TfrmMain
       Pen.Color = 12434688
       Pen.Width = 2
     end
-    object Shape2: TShape
+    object shp10: TShape
       Left = 12
       Top = 78
       Width = 65
@@ -28416,7 +28417,7 @@ object frmMain: TfrmMain
       Pen.Color = 12434688
       Pen.Width = 2
     end
-    object Shape3: TShape
+    object shp20: TShape
       Left = 12
       Top = 145
       Width = 65
@@ -28425,7 +28426,7 @@ object frmMain: TfrmMain
       Pen.Color = 12434688
       Pen.Width = 2
     end
-    object Shape4: TShape
+    object shp21: TShape
       Left = 83
       Top = 145
       Width = 65
@@ -28434,7 +28435,7 @@ object frmMain: TfrmMain
       Pen.Color = 12434688
       Pen.Width = 2
     end
-    object Shape5: TShape
+    object shp11: TShape
       Left = 83
       Top = 78
       Width = 65
@@ -28443,7 +28444,7 @@ object frmMain: TfrmMain
       Pen.Color = 12434688
       Pen.Width = 2
     end
-    object Shape6: TShape
+    object shp01: TShape
       Left = 83
       Top = 11
       Width = 65
@@ -28452,7 +28453,7 @@ object frmMain: TfrmMain
       Pen.Color = 12434688
       Pen.Width = 2
     end
-    object Shape7: TShape
+    object shp22: TShape
       Left = 154
       Top = 145
       Width = 65
@@ -28461,7 +28462,7 @@ object frmMain: TfrmMain
       Pen.Color = 12434688
       Pen.Width = 2
     end
-    object Shape8: TShape
+    object shp12: TShape
       Left = 154
       Top = 78
       Width = 65
@@ -28470,7 +28471,7 @@ object frmMain: TfrmMain
       Pen.Color = 12434688
       Pen.Width = 2
     end
-    object Shape9: TShape
+    object shp02: TShape
       Left = 154
       Top = 11
       Width = 65
@@ -28478,6 +28479,87 @@ object frmMain: TfrmMain
       Brush.Color = 658188
       Pen.Color = 12434688
       Pen.Width = 2
+    end
+    object img00: TImage
+      Left = 12
+      Top = 11
+      Width = 65
+      Height = 61
+      Center = True
+      Proportional = True
+      OnClick = img00Click
+    end
+    object img10: TImage
+      Left = 12
+      Top = 78
+      Width = 65
+      Height = 61
+      Center = True
+      Proportional = True
+      OnClick = img10Click
+    end
+    object img20: TImage
+      Left = 12
+      Top = 145
+      Width = 65
+      Height = 61
+      Center = True
+      Proportional = True
+      OnClick = img20Click
+    end
+    object img21: TImage
+      Left = 83
+      Top = 145
+      Width = 65
+      Height = 61
+      Center = True
+      Proportional = True
+      OnClick = img21Click
+    end
+    object img11: TImage
+      Left = 83
+      Top = 78
+      Width = 65
+      Height = 61
+      Center = True
+      Proportional = True
+      OnClick = img11Click
+    end
+    object img01: TImage
+      Left = 83
+      Top = 11
+      Width = 65
+      Height = 61
+      Center = True
+      Proportional = True
+      OnClick = img01Click
+    end
+    object img22: TImage
+      Left = 154
+      Top = 145
+      Width = 65
+      Height = 61
+      Center = True
+      Proportional = True
+      OnClick = img22Click
+    end
+    object img12: TImage
+      Left = 154
+      Top = 78
+      Width = 65
+      Height = 61
+      Center = True
+      Proportional = True
+      OnClick = img12Click
+    end
+    object img02: TImage
+      Left = 154
+      Top = 11
+      Width = 65
+      Height = 61
+      Center = True
+      Proportional = True
+      OnClick = img02Click
     end
   end
   object pbarTime: TProgressBar
@@ -28496,6 +28578,7 @@ object frmMain: TfrmMain
     Width = 58
     Height = 74
     Caption = 'START'
+    Enabled = False
     Font.Charset = ANSI_CHARSET
     Font.Color = 16776977
     Font.Height = -20
@@ -28512,6 +28595,7 @@ object frmMain: TfrmMain
     Width = 58
     Height = 74
     Caption = 'END'
+    Enabled = False
     Font.Charset = ANSI_CHARSET
     Font.Color = 8421631
     Font.Height = -20
@@ -28565,7 +28649,16 @@ object frmMain: TfrmMain
     end
   end
   object tmrTimeRemaining: TTimer
+    Enabled = False
+    OnTimer = tmrTimeRemainingTimer
     Left = 16
     Top = 64
+  end
+  object tmrRandomAllocation: TTimer
+    Enabled = False
+    Interval = 500
+    OnTimer = tmrRandomAllocationTimer
+    Left = 288
+    Top = 144
   end
 end
