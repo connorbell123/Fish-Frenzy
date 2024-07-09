@@ -3,7 +3,7 @@
 # Fish Frenzy
 The game is simple, **catch as many fish as possible, but watch out for the sharks!**
 ## How to Play
-1. Download the Installer ```Fish_Frenzy_Installer.exe``` from *Releases*.
+1. Download the Installer ```Fish_Frenzy_Installer.exe``` from *Releases*, and install the game. 
 2. Click _New Game_
 3. Choose your level: _Beginner_, _Intermediate_ or _Advanced_
 4. Click _Start_
