@@ -11,6 +11,5 @@ The game is simple, **catch as many fish as possible, but watch out for sharks!*
 - You can end the game by clicking _End_.
    
 ## Screenshots
-See how the game looks before you play;
 
-<img src="Screenshots/Home.png" width="150"/>
+<img src="Screenshots/Home.png" width="150"/> <img src="Screenshots/New Game.png" width="150"/> <img src="Screenshots/Game Over.png" width="150"/>
