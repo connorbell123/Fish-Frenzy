@@ -12,4 +12,4 @@ The game is simple, **catch as many fish as possible, but watch out for sharks!*
    
 ## Screenshots
 
-<img src="Screenshots/Home.png" width="150"/> <img src="Screenshots/New Game.png" width="150"/> <img src="Screenshots/Game Over.png" width="150"/>
+<img src="Screenshots/Home.png" width="150"/> <img src="Screenshots/New Game.PNG" width="150"/> <img src="Screenshots/Game Over.PNG" width="150"/>
