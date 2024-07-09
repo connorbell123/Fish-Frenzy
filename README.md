@@ -2,3 +2,6 @@
 
 # Fish Frenzy
 The game is simple, catch as many fish as possible, but watch out for the sharks!
+
+## How to Play
+1. Download Fish_Frenzy.exe from *Releases*. 
