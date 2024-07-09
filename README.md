@@ -1,7 +1,7 @@
 <img src="Images/Green Fish.png" width="150"/>  <img src="Source/Shark.png" width="150"/> 
 
 # Fish Frenzy
-The game is simple, **catch as many fish as possible, but watch out for the sharks!**
+The game is simple, **catch as many fish as possible, but watch out for sharks!**
 ## How to Play
 1. Download the Installer ```Fish_Frenzy_Installer.exe``` from *Releases*, and install the game. 
 2. Click _New Game_
