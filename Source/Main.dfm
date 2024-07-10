@@ -36435,6 +36435,7 @@ object frmMain: TfrmMain
       object Howtoplay1: TMenuItem
         Caption = 'How to play'
         ShortCut = 112
+        OnClick = Howtoplay1Click
       end
       object Howtoplay2: TMenuItem
         Caption = 'About'

@@ -87,6 +87,7 @@ type
     procedure ClearRecord2Click(Sender: TObject);
     procedure Howtoplay2Click(Sender: TObject);
     procedure ClearRecord1Click(Sender: TObject);
+    procedure Howtoplay1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -331,6 +332,14 @@ begin
         end;
       iBase := iBase * 16;
     end;
+end;
+
+procedure TfrmMain.Howtoplay1Click(Sender: TObject);
+begin
+  // How to play the game
+  MessageDlg('For help visit: ' + #13 +
+  'https://github.com/connorbell123/Fish-Frenzy', TMsgDlgType.mtInformation,
+  [mbOK], 0);
 end;
 
 procedure TfrmMain.Howtoplay2Click(Sender: TObject);
