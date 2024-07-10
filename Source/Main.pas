@@ -220,13 +220,11 @@ begin
   // Convert a Decimal Integer to a Hexidecimal Number
   sResult := '';
   iDecimal := StrToInt(pDec_String);
-
   while iDecimal > 0 do
       begin
         iResult := iDecimal div 16;
         iRemainder := Trunc(((iDecimal / 16) - iResult) * 16);
         iDecimal := iResult;
-
         if iRemainder in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] then
             begin
                 sResult := IntToStr(iRemainder) + sResult;

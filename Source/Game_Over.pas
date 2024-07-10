@@ -24,6 +24,7 @@ type
     pnlTime: TPanel;
     lblTime: TLabel;
     procedure btnCloseClick(Sender: TObject);
+    procedure btnNewGameClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -37,13 +38,26 @@ implementation
 
 {$R *.dfm}
 
-uses Main;
+uses Main, Difficulty_Input;
 
 procedure TfrmGameOver.btnCloseClick(Sender: TObject);
 begin
   // Close form
   lblHeading.Caption := 'Game Over';
   frmGameOver.Close;
+end;
+
+procedure TfrmGameOver.btnNewGameClick(Sender: TObject);
+begin
+  with frmMain do
+    begin
+      // New Game Button Click
+      // Show Difficulty Input Selector Form
+      frmDifficultyInput.Show;
+      frmGameOver.Close;
+      // Play the Button Click Sound
+      ClickSound;
+    end;
 end;
 
 end.

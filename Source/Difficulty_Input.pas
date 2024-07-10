@@ -36,7 +36,7 @@ implementation
 
 {$R *.dfm}
 
-uses Main;
+uses Main, Game_Over;
 
 procedure TfrmDifficultyInput.btnCancelClick(Sender: TObject);
 begin

@@ -590,6 +590,7 @@ object frmGameOver: TfrmGameOver
     Font.Style = []
     ParentFont = False
     TabOrder = 0
+    OnClick = btnNewGameClick
   end
   object btnClose: TButton
     Left = 151
