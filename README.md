@@ -14,4 +14,6 @@ The game is simple, **catch as many fish as possible, but watch out for sharks!*
 
  <img src="Screenshots/In Play Updated.PNG" width="200"/> 
 
+## Supported Platforms
+Windows
 ***
