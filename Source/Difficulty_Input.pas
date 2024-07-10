@@ -1,8 +1,8 @@
 unit Difficulty_Input;
-
-{ This form asks the user which level they would like to play in a new game.
-  © 2024 Connor Bell
-  Last Updated: 9 July 2024
+{ DIFFICULTY INPUT FORM
+  This form asks the user which level they would like to play in a new game.
+  ©2024 Connor Bell
+  Last Updated: 10 July 2024
 }
 
 interface
@@ -65,6 +65,9 @@ begin
 
   // Enable Buttons for start
   frmMain.btnStart.Enabled := True;
+
+  // Update Status Bar
+  frmMain.sbarMain.Panels[1].Text := frmMain.sDifficulty;
 
   // Close the form
   frmDifficultyInput.Close;

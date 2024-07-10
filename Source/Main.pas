@@ -1,5 +1,7 @@
 unit Main;
-
+{ FISH FRENZY VIDEO GAME
+  ©2024 Connor Bell
+  Last Updated: 10 July 2024 }
 interface
 
 uses
@@ -53,7 +55,7 @@ type
     shp02: TShape;
     btnStart: TButton;
     btnEnd: TButton;
-    mpSoundPlayer: TMediaPlayer;
+    mpClick: TMediaPlayer;
     img00: TImage;
     img10: TImage;
     img20: TImage;
@@ -64,6 +66,8 @@ type
     img12: TImage;
     img02: TImage;
     tmrRandomAllocation: TTimer;
+    mpFish: TMediaPlayer;
+    mpShark: TMediaPlayer;
     procedure btnNewGameClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure btnStartClick(Sender: TObject);
@@ -79,12 +83,18 @@ type
     procedure img20Click(Sender: TObject);
     procedure img21Click(Sender: TObject);
     procedure img22Click(Sender: TObject);
+    procedure NewGame1Click(Sender: TObject);
+    procedure ClearRecord2Click(Sender: TObject);
+    procedure Howtoplay2Click(Sender: TObject);
+    procedure ClearRecord1Click(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
+    // Global Variables
     iRecord: Integer;
     sDifficulty: string;
+
     // File Manipulation - for reading/writing the record score.
     function ReadRecordScore: Integer;
     procedure WriteNewRecordScore(pRecord_Score: Integer);
@@ -95,16 +105,18 @@ type
 
     // Sound Effects - play sound effects
     procedure ClickSound;
+    procedure FishClickSound;
+    procedure SharkClickSound;
 
-
-    procedure EndGame(pTotalScore, pTime : Integer);
+    // Game play functions
+    procedure EndGame(pTotalScore, pTime: Integer);
     procedure CheckHighScore;
   end;
 
 var
   frmMain: TfrmMain;
-  iTotalTime : Integer;
-  iTotalScore : Integer;
+  iTotalTime: Integer;
+  iTotalScore: Integer;
 
 implementation
 
@@ -122,9 +134,6 @@ begin
   EndGame(iTotalTime, 60 - StrToInt(lblTimeRemaining.Caption));
   frmGameOver.lblHeading.Caption := 'GAME ENDED';
 
-  // Check if the new score is higher than the current record.
-  CheckHighScore;
-
   // Disable the End button
   btnEnd.Enabled := False;
 end;
@@ -140,24 +149,23 @@ end;
 
 procedure TfrmMain.btnStartClick(Sender: TObject);
 var
-  I : Integer;
-  iTotal : Integer;
+  I: Integer;
+  iTotal: Integer;
 begin
   // START game play button
   // Play the Button Click Sound
   ClickSound;
 
-  if sDifficulty = 'Easy' then
+  // Set the Difficulty Level
+  if sDifficulty = 'Beginner' then
     begin
       tmrRandomAllocation.Interval := 500;
     end
-  else
-  if sDifficulty = 'Intermediate' then
+  else if sDifficulty = 'Intermediate' then
     begin
       tmrRandomAllocation.Interval := 150;
     end
-  else
-  if sDifficulty = 'Advanced' then
+  else if sDifficulty = 'Advanced' then
     begin
       tmrRandomAllocation.Interval := 95;
     end;
@@ -168,32 +176,78 @@ begin
 
   // Enable end Button
   btnEnd.Enabled := True;
-
 end;
 
 procedure TfrmMain.CheckHighScore;
+var
+  iScoreFile: Integer;
 begin
   // Check the total score earned for a game is higher than the current record.
-  if iTotalScore > ReadRecordScore then
+  iScoreFile := ReadRecordScore;
+  if iTotalScore > iScoreFile then
     begin
       // Write the new record to the file
       WriteNewRecordScore(iTotalScore);
     end;
 end;
 
+procedure TfrmMain.ClearRecord1Click(Sender: TObject);
+begin
+  // Clear the Record from the File
+  WriteNewRecordScore(0);
+  // Update Record Score Display
+  lblRecordScore.Caption := IntToStr(ReadRecordScore);
+end;
+
+procedure TfrmMain.ClearRecord2Click(Sender: TObject);
+begin
+  // Close the Form - Close the Game
+  frmMain.Close;
+end;
+
 procedure TfrmMain.ClickSound;
 begin
   // Play Button Click Sound
-  mpSoundPlayer.FileName := 'Click.wav';
-  mpSoundPlayer.Play;
+  mpClick.Play;
 end;
 
 function TfrmMain.DecToHex(pDec_String: string): string;
+var
+  iDecimal, iResult, iRemainder : Integer;
+  sResult : String;
 begin
   // Convert a Decimal Integer to a Hexidecimal Number
+  sResult := '';
+  iDecimal := StrToInt(pDec_String);
+
+  while iDecimal > 0 do
+      begin
+        iResult := iDecimal div 16;
+        iRemainder := Trunc(((iDecimal / 16) - iResult) * 16);
+        iDecimal := iResult;
+
+        if iRemainder in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] then
+            begin
+                sResult := IntToStr(iRemainder) + sResult;
+            end
+        else
+        if iRemainder in [10, 11, 12, 13, 14, 15] then
+            begin
+                case iRemainder of
+                    10: sResult := 'A' + sResult;
+                    11: sResult := 'B' + sResult;
+                    12: sResult := 'C' + sResult;
+                    13: sResult := 'D' + sResult;
+                    14: sResult := 'E' + sResult;
+                    15: sResult := 'F' + sResult;
+                end;
+            end;
+      end;
+
+  Result := sResult;
 end;
 
-procedure TfrmMain.EndGame(pTotalScore, pTime : Integer);
+procedure TfrmMain.EndGame(pTotalScore, pTime: Integer);
 begin
   // End Game
   tmrTimeRemaining.Enabled := False;
@@ -216,7 +270,7 @@ begin
   lblYourScore.Caption := '0';
   lblRecordScore.Caption := IntToStr(ReadRecordScore);
 
-  // Clear Gameboard.
+  // Clear Gameboard
   img00.Hide;
   img01.Hide;
   img02.Hide;
@@ -226,6 +280,22 @@ begin
   img20.Hide;
   img21.Hide;
   img22.Hide;
+
+  // Reset Progress Bar
+  pbarTime.Position := 0;
+
+  // Update Status Bar
+  sbarMain.Panels[1].Text := ' --';
+
+  // Check if the new score is higher than the current record.
+  CheckHighScore;
+end;
+
+procedure TfrmMain.FishClickSound;
+begin
+  // Sound Effect for clicking on a fish
+  // mpFish.FileName := 'Fish.wav';
+  mpFish.Play;
 end;
 
 procedure TfrmMain.FormActivate(Sender: TObject);
@@ -243,17 +313,32 @@ end;
 
 function TfrmMain.HexToDec(pHex_String: string): Integer;
 var
-  I, iLength, iPower: Integer;
+  I, iLength, iBase: Integer;
 begin
   // Convert a Hexidecimal Number to a Decimal Number
   iLength := Length(pHex_String);
   Result := 0;
+  iBase := 1;
   for I := iLength downto 1 do
     begin
-      iPower := iLength - I;
-      Result := Result + (StrToInt(pHex_String[I]) *
-        Round((Power(16, iPower))));
+      if pHex_String[I] in ['0'..'9'] then
+        begin
+          Result := Result + (Ord(pHex_String[I]) - 48) * iBase;
+        end
+      else if pHex_String[I] in ['A'..'F'] then
+        begin
+          Result := Result + (Ord(pHex_String[I]) - 55) * iBase;
+        end;
+      iBase := iBase * 16;
     end;
+end;
+
+procedure TfrmMain.Howtoplay2Click(Sender: TObject);
+begin
+  // Display About Information
+  MessageDlg('Fish Frenzy Version 1' + #13 +
+      'Catch as many fish as possible, but watch out for sharks!' + #13 +
+      '©2024 Connor Bell', TMsgDlgType.mtInformation, [mbClose], 0);
 end;
 
 procedure TfrmMain.img00Click(Sender: TObject);
@@ -263,13 +348,14 @@ begin
     begin
       iTotalScore := iTotalScore + 10;
       lblYourScore.Caption := IntToStr(iTotalScore);
-      img00.Visible := False; ;
+      img00.Visible := False;
+      FishClickSound;
     end
-  else
-  if (img00.Hint = 'Shark') then
+  else if (img00.Hint = 'Shark') then
     begin
       // Clicked on Shark - so game is over.
       EndGame(iTotalScore, 60 - StrToInt(lblTimeRemaining.Caption));
+      SharkClickSound;
     end;
 end;
 
@@ -280,13 +366,14 @@ begin
     begin
       iTotalScore := iTotalScore + 10;
       lblYourScore.Caption := IntToStr(iTotalScore);
-      img01.Visible := False; ;
+      img01.Visible := False;
+      FishClickSound;
     end
-  else
-  if (img01.Hint = 'Shark') then
+  else if (img01.Hint = 'Shark') then
     begin
       // Clicked on Shark - so game is over.
       EndGame(iTotalScore, 60 - StrToInt(lblTimeRemaining.Caption));
+      SharkClickSound;
     end;
 end;
 
@@ -297,13 +384,14 @@ begin
     begin
       iTotalScore := iTotalScore + 10;
       lblYourScore.Caption := IntToStr(iTotalScore);
-      img02.Visible := False; ;
+      img02.Visible := False;
+      FishClickSound;
     end
-  else
-  if (img02.Hint = 'Shark') then
+  else if (img02.Hint = 'Shark') then
     begin
       // Clicked on Shark - so game is over.
       EndGame(iTotalScore, 60 - StrToInt(lblTimeRemaining.Caption));
+      SharkClickSound;
     end;
 end;
 
@@ -314,13 +402,14 @@ begin
     begin
       iTotalScore := iTotalScore + 10;
       lblYourScore.Caption := IntToStr(iTotalScore);
-      img10.Visible := False; ;
+      img10.Visible := False;
+      FishClickSound;
     end
-  else
-  if (img10.Hint = 'Shark') then
+  else if (img10.Hint = 'Shark') then
     begin
       // Clicked on Shark - so game is over.
       EndGame(iTotalScore, 60 - StrToInt(lblTimeRemaining.Caption));
+      SharkClickSound;
     end;
 end;
 
@@ -331,13 +420,14 @@ begin
     begin
       iTotalScore := iTotalScore + 10;
       lblYourScore.Caption := IntToStr(iTotalScore);
-      img11.Visible := False; ;
+      img11.Visible := False;
+      FishClickSound;
     end
-  else
-  if (img11.Hint = 'Shark') then
+  else if (img11.Hint = 'Shark') then
     begin
       // Clicked on Shark - so game is over.
       EndGame(iTotalScore, 60 - StrToInt(lblTimeRemaining.Caption));
+      SharkClickSound;
     end;
 end;
 
@@ -348,13 +438,14 @@ begin
     begin
       iTotalScore := iTotalScore + 10;
       lblYourScore.Caption := IntToStr(iTotalScore);
-      img12.Visible := False; ;
+      img12.Visible := False;
+      FishClickSound;
     end
-  else
-  if (img12.Hint = 'Shark') then
+  else if (img12.Hint = 'Shark') then
     begin
       // Clicked on Shark - so game is over.
       EndGame(iTotalScore, 60 - StrToInt(lblTimeRemaining.Caption));
+      SharkClickSound;
     end;
 end;
 
@@ -365,13 +456,14 @@ begin
     begin
       iTotalScore := iTotalScore + 10;
       lblYourScore.Caption := IntToStr(iTotalScore);
-      img20.Visible := False; ;
+      img20.Visible := False;
+      FishClickSound;
     end
-  else
-  if (img20.Hint = 'Shark') then
+  else if (img20.Hint = 'Shark') then
     begin
       // Clicked on Shark - so game is over.
       EndGame(iTotalScore, 60 - StrToInt(lblTimeRemaining.Caption));
+      SharkClickSound;
     end;
 end;
 
@@ -382,31 +474,42 @@ begin
     begin
       iTotalScore := iTotalScore + 10;
       lblYourScore.Caption := IntToStr(iTotalScore);
-      img21.Visible := False; ;
+      img21.Visible := False;
+      FishClickSound;
     end
-  else
-  if (img21.Hint = 'Shark') then
+  else if (img21.Hint = 'Shark') then
     begin
       // Clicked on Shark - so game is over.
       EndGame(iTotalScore, 60 - StrToInt(lblTimeRemaining.Caption));
+      SharkClickSound;
     end;
 end;
 
 procedure TfrmMain.img22Click(Sender: TObject);
 begin
-  // IMG 21 - CLICK
+  // IMG 22 - CLICK
   if (img22.Hint = 'Fish') and (img22.Visible = True) then
     begin
       iTotalScore := iTotalScore + 10;
       lblYourScore.Caption := IntToStr(iTotalScore);
-      img22.Visible := False; ;
+      img22.Visible := False;
+      FishClickSound;
     end
-  else
-  if (img22.Hint = 'Shark') then
+  else if (img22.Hint = 'Shark') then
     begin
       // Clicked on Shark - so game is over.
       EndGame(iTotalScore, 60 - StrToInt(lblTimeRemaining.Caption));
+      SharkClickSound;
     end;
+end;
+
+procedure TfrmMain.NewGame1Click(Sender: TObject);
+begin
+  // New Game Menu Button Click
+  // Show Difficulty Input Selector Form
+  frmDifficultyInput.Show;
+  // Play the Button Click Sound
+  ClickSound;
 end;
 
 function TfrmMain.ReadRecordScore: Integer;
@@ -427,21 +530,28 @@ begin
   except
     // Display Error 1 Message: Cannot find the record score file!
     MessageDlg('Error 1: Cannot find file: "Record_Score.txt".' +
-      ' It may be missing or corrupted.', TMsgDlgType.mtError, [mbOK], 0);
+    ' It may be missing or corrupted.', TMsgDlgType.mtError, [mbOK], 0);
     // Assign a default placeholder for the record score display.
     lblRecordScore.Caption := '--';
   end;
 end;
 
+procedure TfrmMain.SharkClickSound;
+begin
+  // Sound Effect for clicking on a shark
+  mpShark.Play;
+end;
+
 procedure TfrmMain.tmrRandomAllocationTimer(Sender: TObject);
 var
-  iRow, iCol : Integer;
-  iImage : Integer;
+  iRow, iCol: Integer;
+  iImage: Integer;
 begin
-  // Random Fish
+  // Random Fish or Shark Image - GAME PLAY
   iRow := RandomRange(0, 3);
   iCol := RandomRange(0, 3);
-
+  {At a certain interval, a random position on the 3 x 3 grid is chosen,
+  and then, at random, a shark or a fish image is placed there. }
   if (iRow = 0) and (iCol = 0) then
     begin
       img00.Visible := True;
@@ -459,8 +569,7 @@ begin
           img00.Hint := 'Fish';
         end;
     end
-  else
-  if (iRow = 0) and (iCol = 1) then
+  else if (iRow = 0) and (iCol = 1) then
     begin
       img01.Visible := True;
       iImage := RandomRange(0, 100);
@@ -477,8 +586,7 @@ begin
           img01.Hint := 'Fish';
         end;
     end
-  else
-  if (iRow = 0) and (iCol = 2) then
+  else if (iRow = 0) and (iCol = 2) then
     begin
       img02.Visible := True;
       iImage := RandomRange(0, 100);
@@ -495,8 +603,7 @@ begin
           img02.Hint := 'Fish';
         end;
     end
-  else
-  if (iRow = 1) and (iCol = 0) then
+  else if (iRow = 1) and (iCol = 0) then
     begin
       img10.Visible := True;
       iImage := RandomRange(0, 100);
@@ -513,8 +620,7 @@ begin
           img10.Hint := 'Fish';
         end;
     end
-  else
-  if (iRow = 1) and (iCol = 1) then
+  else if (iRow = 1) and (iCol = 1) then
     begin
       img11.Visible := True;
       iImage := RandomRange(0, 100);
@@ -531,8 +637,7 @@ begin
           img11.Hint := 'Fish';
         end;
     end
-  else
-   if (iRow = 1) and (iCol = 2) then
+  else if (iRow = 1) and (iCol = 2) then
     begin
       img12.Visible := True;
       iImage := RandomRange(0, 100);
@@ -549,8 +654,7 @@ begin
           img12.Hint := 'Fish';
         end;
     end
-  else
-   if (iRow = 2) and (iCol = 0) then
+  else if (iRow = 2) and (iCol = 0) then
     begin
       img20.Visible := True;
       iImage := RandomRange(0, 100);
@@ -567,8 +671,7 @@ begin
           img20.Hint := 'Fish';
         end;
     end
-   else
-    if (iRow = 2) and (iCol = 1) then
+  else if (iRow = 2) and (iCol = 1) then
     begin
       img21.Visible := True;
       iImage := RandomRange(0, 100);
@@ -585,8 +688,7 @@ begin
           img21.Hint := 'Fish';
         end;
     end
-   else
-    if (iRow = 2) and (iCol = 2) then
+  else if (iRow = 2) and (iCol = 2) then
     begin
       img22.Visible := True;
       iImage := RandomRange(0, 100);
@@ -603,7 +705,6 @@ begin
           img22.Hint := 'Fish';
         end;
     end;
-
 end;
 
 procedure TfrmMain.tmrTimeRemainingTimer(Sender: TObject);
@@ -611,6 +712,8 @@ begin
   // Display the total time remaining to play the game.
   lblTimeRemaining.Caption := IntToStr(iTotalTime);
   lblTimeRemaining.Update;
+
+  // Reduce Total Time
   iTotalTime := iTotalTime - 1;
 
   if iTotalTime = 0 then
@@ -619,6 +722,9 @@ begin
       tmrTimeRemaining.Enabled := False;
       tmrRandomAllocation.Enabled := False;
     end;
+
+  // Update Progress Bar Position
+  pbarTime.Position := pbarTime.Position + 1;
 end;
 
 procedure TfrmMain.WriteNewRecordScore(pRecord_Score: Integer);

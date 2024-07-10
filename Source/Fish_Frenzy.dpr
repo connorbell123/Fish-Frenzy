@@ -13,6 +13,7 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
+  Application.Title := 'Fish Frenzy';
   TStyleManager.TrySetStyle('Windows10 Green');
   Application.CreateForm(TfrmMain, frmMain);
   Application.CreateForm(TfrmDifficultyInput, frmDifficultyInput);

@@ -1,5 +1,9 @@
 unit Game_Over;
-
+{ GAME OVER FORM - Display this form when the game is over or, if the game has
+  been ended by the user.
+  ©2024 Connor Bell
+  Last Updated: 10 July 2024
+}
 interface
 
 uses
